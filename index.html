@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KELAS 7H SMPN 1 SELAYAR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background-color: #121212;
+      color: white;
+    }
+
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .popup {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(18,18,18,0.95);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 999;
+    }
+
+    .popup img.logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    .popup h1 {
+      font-size: 28px;
+      margin: 10px 0;
+    }
+
+    .popup p {
+      margin: 5px 0;
+      color: #ccc;
+    }
+
+    .popup button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .loading-container {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #121212;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 998;
+      display: none;
+    }
+
+    .loading-text {
+      margin-bottom: 20px;
+    }
+
+    .loading-bar {
+      width: 80%;
+      background-color: #333;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .loading-fill {
+      width: 0%;
+      height: 15px;
+      background-color: #2196f3;
+    }
+
+    .container {
+      padding: 20px;
+      display: none;
+    }
+
+    .logo-section {
+      background-color: #1976d2;
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .logo-section img {
+      width: 120px;
+    }
+
+    .logo-section h1 {
+      font-size: 28px;
+      margin-top: 15px;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      margin-top: 25px;
+    }
+
+    .profile img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+
+    .profile h2 {
+      margin: 0;
+      font-size: 20px;
+      color: #2196f3;
+    }
+
+    .profile p {
+      margin: 0;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .section {
+      background-color: #1e1e1e;
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .section-title {
+      color: #2196f3;
+      font-size: 20px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .calendar {
+      text-align: center;
+    }
+
+    .calendar table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      color: white;
+    }
+
+    .calendar th, .calendar td {
+      padding: 5px;
+      text-align: center;
+    }
+
+    .news {
+      background-color: white;
+      color: #222;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .news h3 {
+      color: #1976d2;
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .news p {
+      font-size: 14px;
+      color: #555;
+    }
+
+    /* Watermark */
+    .watermark {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      color: #2196f3;
+      letter-spacing: 1px;
+      animation: glow 2s ease-in-out infinite alternate;
+      z-index: 10;
+      pointer-events: none;
+      display: none;
+    }
+
+    .watermark span {
+      font-weight: bold;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px #2196f3, 0 0 10px #2196f3;
+      }
+      to {
+        text-shadow: 0 0 10px #42a5f5, 0 0 20px #42a5f5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Partikel -->
+  <div id="particles-js"></div>
+
+  <!-- Popup Welcome -->
+  <div class="popup" id="welcomePopup">
+    <img src="https://img1.pixhost.to/images/5091/588650193_imgtmp.jpg" alt="Logo Kelas 7H" class="logo" />
+    <h1>KELAS 7H SMPN 1 SELAYAR</h1>
+    <p>Visi: Menjadi siswa yang cerdas, kreatif dan berkarakter.</p>
+    <p>Misi: Belajar dengan semangat, bertindak jujur, dan menghargai sesama.</p>
+    <button onclick="startLoading()">𝗠𝗮𝘀𝘂𝗸</button>
+  </div>
+
+  <!-- Loading Screen -->
+  <div class="loading-container" id="loadingScreen">
+    <h2 class="loading-text">Loading <span id="loadingPercent">0%</span></h2>
+    <div class="loading-bar">
+      <div class="loading-fill" id="loadingFill"></div>
+    </div>
+  </div>
+
+  <!-- Konten Utama -->
+  <div class="container" id="mainContent">
+    <div class="logo-section">
+      <img src="https://img1.pixhost.to/images/5091/588650193_imgtmp.jpg" alt="Logo Kelas 7A" />
+      <h1>KELAS 7H SMPN 1 SELAYAR</h1>
+    </div>
+
+    <div class="profile">
+      <img src="https://img1.pixhost.to/images/5091/588650193_imgtmp.jpg" alt="Foto Wali Kelas">
+      <div>
+        <h2>Ibu Rosnayanti</h2>
+        <p>Wali Kelas 7H</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Kalender Kelas</div>
+      <div class="calendar">
+        <p>April 2025</p>
+        <table>
+          <tr><th>Min</th><th>Sen</th><th>Sel</th><th>Rab</th><th>Kam</th><th>Jum</th><th>Sab</th></tr>
+          <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+          <tr><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
+          <tr><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
+          <tr><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td></tr>
+          <tr><td>28</td><td>29</td><td>30</td><td></td><td></td><td></td><td></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Info Kelas</div>
+      <div class="news">
+        <h3>Persiapan Ujian Tengah Semester</h3>
+        <p>UTS akan dilaksanakan mulai 22 April 2025. Harap siswa belajar dan menjaga kesehatan.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Watermark -->
+  <footer class="watermark" id="footerWatermark">
+    © <span>Powered By Dzaky</span>
+  </footer>
+
+  <!-- CDN Partikel -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": "#2196f3"
+        },
+        "shape": {
+          "type": "circle"
+        },
+        "opacity": {
+          "value": 0.5
+        },
+        "size": {
+          "value": 4,
+          "random": true
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#2196f3",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "out_mode": "out"
+        }
+      },
+      "interactivity": {
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" }
+        },
+        "modes": {
+          "repulse": { "distance": 100, "duration": 0.4 },
+          "push": { "particles_nb": 4 }
+        }
+      },
+      "retina_detect": true
+    });
+
+    function startLoading() {
+      document.getElementById("welcomePopup").style.display = "none";
+      document.getElementById("loadingScreen").style.display = "flex";
+
+      let percent = 0;
+      const interval = setInterval(() => {
+        percent += 1;
+        document.getElementById("loadingPercent").textContent = percent + "%";
+        document.getElementById("loadingFill").style.width = percent + "%";
+
+        if (percent >= 100) {
+          clearInterval(interval);
+          document.getElementById("loadingScreen").style.display = "none";
+          document.getElementById("mainContent").style.display = "block";
+          document.getElementById("footerWatermark").style.display = "block";
+        }
+      }, 30);
+    }
+  </script>
+</body>
+</html>
